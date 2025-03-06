@@ -45,7 +45,6 @@ class App {
         if (success) {
             // タグを表示
             this.uiController.renderTags();
-            this.uiController.renderTagCloud();
 
             // 検索を実行
             this.searchController.search();
