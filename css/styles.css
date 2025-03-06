@@ -6,6 +6,9 @@
     --text-color: #333;
     --card-background: #fff;
     --border-color: #e0e0e0;
+    --text-muted: #666666;
+    --background: #ffffff;
+    --border: #e0e0e0;
 }
 
 /* Base styles */
@@ -306,6 +309,40 @@ footer p {
     margin: 5px 0;
 }
 
+.footer {
+    background-color: var(--background);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.copyright {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-link {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+}
+
 /* Utility classes */
 .hidden {
     display: none;
@@ -485,4 +522,15 @@ footer p {
     .secret-videos-table td:last-child {
         max-width: 150px;
     }
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .copyright {
+        text-align: left;
+    }    
 }
