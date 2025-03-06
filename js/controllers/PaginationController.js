@@ -33,6 +33,7 @@ class PaginationController {
         this.elements.itemsPerPage.value = searchParams.itemsPerPage.toString();
     }
 
+
     /**
      * 前のページに移動
      */
@@ -45,6 +46,16 @@ class PaginationController {
 
             // URLパラメータを更新
             UrlUtils.updateUrlParams(searchParams);
+
+            // 検索結果を即時更新
+            const filteredVideos = this.searchController.getFilteredVideos();
+            const startIndex = this.getStartIndex();
+            const endIndex = this.getEndIndex();
+
+            // UIControllerのインスタンスを取得して検索結果を更新
+            const uiController = window.app.uiController;
+            uiController.renderVideos(filteredVideos, startIndex, endIndex);
+            this.updatePagination();
 
             return true;
         }
@@ -67,6 +78,15 @@ class PaginationController {
             // URLパラメータを更新
             UrlUtils.updateUrlParams(searchParams);
 
+            // 検索結果を即時更新
+            const startIndex = this.getStartIndex();
+            const endIndex = this.getEndIndex();
+
+            // UIControllerのインスタンスを取得して検索結果を更新
+            const uiController = window.app.uiController;
+            uiController.renderVideos(filteredVideos, startIndex, endIndex);
+            this.updatePagination();
+
             return true;
         }
 
@@ -85,6 +105,16 @@ class PaginationController {
 
         // URLパラメータを更新
         UrlUtils.updateUrlParams(searchParams);
+
+        // 検索結果を即時更新
+        const filteredVideos = this.searchController.getFilteredVideos();
+        const startIndex = this.getStartIndex();
+        const endIndex = this.getEndIndex();
+
+        // UIControllerのインスタンスを取得して検索結果を更新
+        const uiController = window.app.uiController;
+        uiController.renderVideos(filteredVideos, startIndex, endIndex);
+        this.updatePagination();
 
         return true;
     }
