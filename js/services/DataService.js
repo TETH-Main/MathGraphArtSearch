@@ -85,15 +85,28 @@ class DataService {
                 selectedTags.every(tag => video.tags.includes(tag));
 
             // 話数検索
-            // 話数検索
-            const matchesEpisode = !episodeFilter || 
-                (typeof video.episode === 'string' && video.episode.toLowerCase().includes(episodeFilter.toLowerCase()));
+            const matchesEpisodeFunc = (video, episodeFilter) => {
+                if (!episodeFilter) return true;
+                if (typeof video.episode !== 'string') return false;
+            
+                const episode = Number(video.episode.replace(/[^0-9]/g, ''));
+                const filters = episodeFilter.split(/,\s*/);
+            
+                return filters.some(filter => {
+                    if (filter.includes('-')) {
+                        const [start, end] = filter.split('-').map(Number);
+                        return episode >= start && episode <= end;
+                    }
+                    return episode === Number(filter);
+                });
+            };
+            const matchesEpisode = matchesEpisodeFunc(video, episodeFilter);
 
             // 日付検索
             const matchesDate = !dateFilter ||
                 DateUtils.isWithinPeriod(video.date, dateFilter);
 
-            return matchesKeyword && matchesTags && matchesEpisode && matchesDate;
+            return matchesKeyword && matchesTags && matchesEpisode && matchesDate && !video.isSecret;
         });
     }
 
