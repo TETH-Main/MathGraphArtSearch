@@ -178,9 +178,6 @@ class UIController {
     /**
      * 限定公開動画を表示
      */
-    /**
-     * 限定公開動画を表示
-     */
     showSecretVideos() {
         this.elements.secretVideos.classList.remove('hidden');
         this.elements.secretVideoList.innerHTML = '';
@@ -250,5 +247,15 @@ class UIController {
         } else {
             this.elements.loading.classList.add('hidden');
         }
+    }
+
+    /**
+     * 隠しコマンド関連の要素参照を更新
+     * @param {HTMLElement} secretVideosElement - 限定公開動画コンテナ要素
+     * @param {HTMLElement} secretVideoListElement - 限定公開動画リスト要素
+     */
+    updateSecretElements(secretVideosElement, secretVideoListElement) {
+        this.elements.secretVideos = secretVideosElement;
+        this.elements.secretVideoList = secretVideoListElement;
     }
 }
