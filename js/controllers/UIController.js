@@ -177,7 +177,7 @@ class UIController {
         date.textContent = DateUtils.formatDate(video.date);
 
         const episode = document.createElement('div');
-        episode.textContent = video.episode;
+        episode.textContent = video.episode + "話";
 
         meta.appendChild(date);
         meta.appendChild(episode);
