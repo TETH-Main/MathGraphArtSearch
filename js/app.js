@@ -87,6 +87,11 @@ class App {
         const filterGroup = document.createElement('div');
         filterGroup.className = 'filter-group';
 
+        // 隠しコマンドラベルを作成
+        const commandLabel = document.createElement('label');
+        commandLabel.for = 'episode-filter';
+        commandLabel.textContent = '関数アートサーバで一番最初に発言したアカウント名';
+
         // コマンド入力フィールドを作成
         const commandInput = document.createElement('input');
         commandInput.type = 'text';
@@ -109,6 +114,7 @@ class App {
         secretVideos.appendChild(secretVideoList);
 
         // 要素を追加
+        filterGroup.appendChild(commandLabel);
         filterGroup.appendChild(commandInput);
         filterGroup.appendChild(secretVideos);
 
