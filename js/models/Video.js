@@ -30,7 +30,7 @@ class Video {
             thumbnail: entry.thumbnail_url || '',
             title: entry.title || '',
             description: entry.description || '',
-            duration: entry.vide_duration || '',
+            duration: entry.video_duration || '',
             tags: entry.tags ? entry.tags.split(',').map(tag => tag.trim()) : [],
             videoId: entry.video_id || '',
             isSecret: entry.type === 'secret'
