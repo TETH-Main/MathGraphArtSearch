@@ -48,7 +48,6 @@ class UIController {
             tagElement.addEventListener('click', () => {
                 this.searchController.toggleTag(tag);
                 this.renderTags();
-                this.renderTagCloud();
 
                 // 検索結果を即時更新するための追加コード
                 const filteredVideos = this.searchController.getFilteredVideos();
@@ -60,43 +59,6 @@ class UIController {
             });
 
             this.elements.tagContainer.appendChild(tagElement);
-        });
-    }
-
-    /**
-     * タグクラウドを表示
-     */
-    renderTagCloud() {
-        this.elements.tagCloud.innerHTML = '';
-
-        const popularTags = this.dataService.getPopularTags();
-        const tagCounts = this.dataService.getTagCounts();
-        const selectedTags = this.searchController.getSelectedTags();
-
-        popularTags.forEach(tag => {
-            const tagElement = document.createElement('div');
-            tagElement.className = 'tag-cloud-tag';
-            tagElement.textContent = `${tag} (${tagCounts[tag]})`;
-
-            if (selectedTags.includes(tag)) {
-                tagElement.classList.add('selected');
-            }
-
-            tagElement.addEventListener('click', () => {
-                this.searchController.toggleTag(tag);
-                this.renderTags();
-                this.renderTagCloud();
-
-                // 検索結果を即時更新するための追加コード
-                const filteredVideos = this.searchController.getFilteredVideos();
-                const paginationController = window.app.paginationController;
-                const startIndex = paginationController.getStartIndex();
-                const endIndex = paginationController.getEndIndex();
-                this.renderVideos(filteredVideos, startIndex, endIndex);
-                paginationController.updatePagination();
-            });
-
-            this.elements.tagCloud.appendChild(tagElement);
         });
     }
 
@@ -196,7 +158,6 @@ class UIController {
                 if (!this.searchController.getSelectedTags().includes(tag)) {
                     this.searchController.toggleTag(tag);
                     this.renderTags();
-                    this.renderTagCloud();
                 }
             });
 
