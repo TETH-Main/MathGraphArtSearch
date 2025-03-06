@@ -113,14 +113,4 @@ class SearchController {
     getFilteredVideos() {
         return [...this.filteredVideos];
     }
-
-    /**
-     * 隠しコマンドを検証
-     * @param {string} command - 入力されたコマンド
-     * @param {string} secretCommand - 正しい隠しコマンド
-     * @returns {boolean} コマンドが一致すればtrue
-     */
-    validateSecretCommand(command, secretCommand) {
-        return command.trim() === secretCommand;
-    }
 }

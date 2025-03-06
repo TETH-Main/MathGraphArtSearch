@@ -350,7 +350,6 @@ footer p {
 
 .command-input {
     padding: 10px;
-    margin-top: 20px;
     width: 100%;
     max-width: 400px;
     border: 1px solid var(--border-color);
