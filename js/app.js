@@ -7,7 +7,7 @@ class App {
      */
     constructor() {
         // 隠しコマンド（難読化）
-        this.secretCommandHash = "-1b0edb6e"; // SHA-1 ハッシュ値
+        this.secretCommandHash = "31757bbfa17e6e3d1550ca435f418c0a14be83151541246516cc14ce89867a19"; // SHA-256 ハッシュ値
         this.secretCommandInserted = false;
 
         // サービスとコントローラーの初期化
