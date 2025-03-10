@@ -135,27 +135,27 @@ class App {
     }
 
     /**
+     * 入力値のハッシュを計算、検証
+     * @param {string} input - 入力されたコマンド
+     */
+    async checkHash(input) {
+        const sha256 = async (str) => {
+            const utf8 = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest('SHA-256', utf8);
+            return Array.from(new Uint8Array(digest)).map(x => x.toString(16).padStart(2, '0')).join('');
+        };
+
+        const inputHash = await sha256(input);
+        if (inputHash === this.secretCommandHash) return true;
+        else return false;
+    }
+
+    /**
      * 隠しコマンドを検証
      * @param {string} input - 入力されたコマンド
      */
     validateSecretCommand(input) {
-        const sha256 = async (str) => {
-            // 文字列をUTF-8のUint8Arrayに変換
-            const utf8 = new TextEncoder().encode(str);
-        
-            // SHA-256ハッシュを計算
-            const digest = await crypto.subtle.digest('SHA-256', utf8);
-        
-            // ハッシュ値を16進数の文字列に変換
-            return Array.from(new Uint8Array(digest))
-                .map(byte => byte.toString(16).padStart(2, '0'))
-                .join('');
-        };
-
-        // 入力値のハッシュを計算
-        const inputHash = sha256(input);
-
-        if (inputHash === this.secretCommandHash) {
+        if (this.checkHash(input)) {
             const secretVideos = document.getElementById('secret-videos');
             if (secretVideos) {
                 secretVideos.classList.remove('hidden');
