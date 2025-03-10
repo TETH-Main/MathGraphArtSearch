@@ -7,7 +7,7 @@ class App {
      */
     constructor() {
         // 隠しコマンド（難読化）
-        this.secretCommandHash = "-1b0edb6e"; // SHA-1 ハッシュ値
+        this.secretCommandHash = "31757bbfa17e6e3d1550ca435f418c0a14be83151541246516cc14ce89867a19"; // SHA-256 ハッシュ値
         this.secretCommandInserted = false;
 
         // サービスとコントローラーの初期化
@@ -135,28 +135,27 @@ class App {
     }
 
     /**
+     * 入力値のハッシュを計算、検証
+     * @param {string} input - 入力されたコマンド
+     */
+    async checkHash(input) {
+        const sha256 = async (str) => {
+            const utf8 = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest('SHA-256', utf8);
+            return Array.from(new Uint8Array(digest)).map(x => x.toString(16).padStart(2, '0')).join('');
+        };
+
+        const inputHash = await sha256(input);
+        if (inputHash === this.secretCommandHash) return true;
+        else return false;
+    }
+
+    /**
      * 隠しコマンドを検証
      * @param {string} input - 入力されたコマンド
      */
     validateSecretCommand(input) {
-        // SHA-1ハッシュ関数（簡易版）
-        const sha1 = (str) => {
-            // 注: これは実際のSHA-1ではなく、単純化したハッシュ関数です
-            // 実際のアプリケーションでは、より安全なハッシュライブラリを使用してください
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // 32bit整数に変換
-            }
-            return hash.toString(16);
-        };
-
-        // 入力値のハッシュを計算
-        const inputHash = sha1(input);
-
-        // 正しいコマンドの場合（実際のハッシュ比較ではなく、特定の入力値をハードコード）
-        if (inputHash === this.secretCommandHash) { // 実際のアプリケーションではこの比較を避け、ハッシュのみを使用
+        if (this.checkHash(input)) {
             const secretVideos = document.getElementById('secret-videos');
             if (secretVideos) {
                 secretVideos.classList.remove('hidden');
