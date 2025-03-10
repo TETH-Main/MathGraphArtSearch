@@ -139,24 +139,23 @@ class App {
      * @param {string} input - 入力されたコマンド
      */
     validateSecretCommand(input) {
-        // SHA-1ハッシュ関数（簡易版）
-        const sha1 = (str) => {
-            // 注: これは実際のSHA-1ではなく、単純化したハッシュ関数です
-            // 実際のアプリケーションでは、より安全なハッシュライブラリを使用してください
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // 32bit整数に変換
-            }
-            return hash.toString(16);
+        const sha256 = async (str) => {
+            // 文字列をUTF-8のUint8Arrayに変換
+            const utf8 = new TextEncoder().encode(str);
+        
+            // SHA-256ハッシュを計算
+            const digest = await crypto.subtle.digest('SHA-256', utf8);
+        
+            // ハッシュ値を16進数の文字列に変換
+            return Array.from(new Uint8Array(digest))
+                .map(byte => byte.toString(16).padStart(2, '0'))
+                .join('');
         };
 
         // 入力値のハッシュを計算
-        const inputHash = sha1(input);
+        const inputHash = sha256(input);
 
-        // 正しいコマンドの場合（実際のハッシュ比較ではなく、特定の入力値をハードコード）
-        if (inputHash === this.secretCommandHash) { // 実際のアプリケーションではこの比較を避け、ハッシュのみを使用
+        if (inputHash === this.secretCommandHash) {
             const secretVideos = document.getElementById('secret-videos');
             if (secretVideos) {
                 secretVideos.classList.remove('hidden');
